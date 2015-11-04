@@ -46,6 +46,7 @@ class Garden extends Environment {
     @Override
     public void environmentMouseClicked(MouseEvent e) {
         System.out.println("Mouse click at" + e.getPoint());
+        System.out.println("Mouse clicked in cell " + grid.getCellLocationFromSystemCoordinate(e.getPoint()));
         
     }
 
