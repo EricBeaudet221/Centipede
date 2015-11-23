@@ -22,7 +22,7 @@ class Garden extends Environment {
     Grid grid;
 
     public Garden() {
-        grid = new Grid(75, 60, 17, 17, new Point(10, 50), Color.blue);
+        grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.blue);
     }
 
     @Override
@@ -42,7 +42,6 @@ class Garden extends Environment {
             System.out.println("Go left");
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             System.out.println("Go right");
-
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             System.out.println("Go up");
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -53,19 +52,7 @@ class Garden extends Environment {
 
     @Override
     public void keyReleasedHandler(KeyEvent e) {
-        if (e.getKeyCode() ==KeyEvent.VK_W) {
-            System.out.println("up");
-        }
-         if (e.getKeyCode() ==KeyEvent.VK_A) {
-            System.out.println("left");
-        }
-          if (e.getKeyCode() ==KeyEvent.VK_S) {
-            System.out.println("down");
-        }
-         if (e.getKeyCode() ==KeyEvent.VK_D) {
-            System.out.println("right");
-        }
-    
+        
     }
 
     @Override
