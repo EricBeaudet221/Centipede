@@ -12,17 +12,27 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  *
  * @author ericbeaudet
  */
-class Garden extends Environment {
+class Garden extends Environment implements CellDataProviderIntf, MoveValidatorIntf {
 
     Grid grid;
+    private ArrayList<Barrier> barriers;
 
     public Garden() {
         grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.blue);
+
+        barriers = new ArrayList<>();
+        barriers.add(new Barrier(0, 2, Color.GREEN, this, false));
+        barriers.add(new Barrier(0, 3, Color.GREEN, this, false));
+        barriers.add(new Barrier(0, 4, Color.ORANGE, this, false));
+        barriers.add(new Barrier(0, 5, Color.GREEN, this, false));
+        barriers.add(new Barrier(0, 6, Color.CYAN, this, false));
+
     }
 
     @Override
@@ -38,7 +48,7 @@ class Garden extends Environment {
 
     @Override
     public void keyPressedHandler(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             System.out.println("Go left");
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             System.out.println("Go right");
@@ -52,7 +62,7 @@ class Garden extends Environment {
 
     @Override
     public void keyReleasedHandler(KeyEvent e) {
-        
+
     }
 
     @Override
@@ -68,6 +78,61 @@ class Garden extends Environment {
             grid.paintComponent(graphics);
         }
 
+        if (barriers != null) {
+            for (int i = 0; i < barriers.size(); i++) {
+                barriers.get(i).draw(graphics);
+                
+            }
+//            
+            
+//            barriers.draw(graphics);
+        }
+
     }
 
+    //<editor-fold defaultstate="collapsed" desc="CellDataProviderIntf">
+    @Override
+    public int getCellWidth() {
+        return grid.getCellWidth();
+    }
+
+    @Override
+    public int getCellHeight() {
+        return grid.getCellHeight();
+    }
+
+    @Override
+    public int getSystemCoordX(int x, int y) {
+        return grid.getCellSystemCoordinate(x, y).x;
+
+    }
+
+    @Override
+    public int getSystemCoordY(int x, int y) {
+        return grid.getCellSystemCoordinate(x, y).y;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="MoveValidatorIntf">
+    @Override
+    public Point validateMove(Point proposedLocation) {
+        if (proposedLocation.x < 0) {
+
+            if (proposedLocation.y > grid.getRows() / 2) {
+                proposedLocation.x++;
+                proposedLocation.y++;
+
+            } else {
+                proposedLocation.x++;
+                proposedLocation.y--;
+            }
+
+            System.out.println("OUT OF BOUNDS");
+
+        }
+
+        return proposedLocation;
+    }
+
+//</editor-fold>
 }
