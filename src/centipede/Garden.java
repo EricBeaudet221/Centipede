@@ -5,6 +5,7 @@
  */
 package centipede;
 
+import environment.Direction;
 import environment.Environment;
 import grid.Grid;
 import java.awt.Color;
@@ -20,9 +21,9 @@ import java.util.ArrayList;
  */
 class Garden extends Environment implements CellDataProviderIntf, MoveValidatorIntf {
 
-    Grid grid;
+    private Grid grid;
     private ArrayList<Barrier> barriers;
-
+    private Centipede centipede;
     public Garden() {
         grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.blue);
 
@@ -32,6 +33,8 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
         barriers.add(new Barrier(0, 4, Color.ORANGE, this, false));
         barriers.add(new Barrier(0, 5, Color.GREEN, this, false));
         barriers.add(new Barrier(0, 6, Color.CYAN, this, false));
+        
+        centipede = new Centipede(Direction.DOWN, grid, this);
 
     }
 
@@ -83,14 +86,17 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
                 barriers.get(i).draw(graphics);
                 
             }
+            
+            if (centipede != null) {
+                centipede.draw(graphics);
+                    
+                }
+            }
 //            
             
 //            barriers.draw(graphics);
         }
 
-    }
-
-    //<editor-fold defaultstate="collapsed" desc="CellDataProviderIntf">
     @Override
     public int getCellWidth() {
         return grid.getCellWidth();
@@ -104,35 +110,66 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
     @Override
     public int getSystemCoordX(int x, int y) {
         return grid.getCellSystemCoordinate(x, y).x;
-
     }
 
     @Override
     public int getSystemCoordY(int x, int y) {
         return grid.getCellSystemCoordinate(x, y).y;
     }
-//</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="MoveValidatorIntf">
     @Override
     public Point validateMove(Point proposedLocation) {
         if (proposedLocation.x < 0) {
-
-            if (proposedLocation.y > grid.getRows() / 2) {
-                proposedLocation.x++;
-                proposedLocation.y++;
-
-            } else {
-                proposedLocation.x++;
-                proposedLocation.y--;
-            }
-
             System.out.println("OUT OF BOUNDS");
+        
+    }
+        return null;
 
-        }
-
-        return proposedLocation;
     }
 
-//</editor-fold>
+//    //<editor-fold defaultstate="collapsed" desc="CellDataProviderIntf">
+//    @Override
+//    public int getCellWidth() {
+//        return grid.getCellWidth();
+//    }
+//
+//    @Override
+//    public int getCellHeight() {
+//        return grid.getCellHeight();
+//    }
+//
+//    @Override
+//    public int getSystemCoordX(int x, int y) {
+//        return grid.getCellSystemCoordinate(x, y).x;
+//
+//    }
+//
+//    @Override
+//    public int getSystemCoordY(int x, int y) {
+//        return grid.getCellSystemCoordinate(x, y).y;
+//    }
+////</editor-fold>
+//
+//    //<editor-fold defaultstate="collapsed" desc="MoveValidatorIntf">
+//    @Override
+//    public Point validateMove(Point proposedLocation) {
+//        if (proposedLocation.x < 0) {
+//
+//            if (proposedLocation.y > grid.getRows() / 2) {
+//                proposedLocation.x++;
+//                proposedLocation.y++;
+//
+//            } else {
+//                proposedLocation.x++;
+//                proposedLocation.y--;
+//            }
+//
+//            System.out.println("OUT OF BOUNDS");
+//
+//        }
+//
+//        return proposedLocation;
+//    }
+//
+////</editor-fold>
 }
