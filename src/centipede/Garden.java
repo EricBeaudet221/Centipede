@@ -27,16 +27,27 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
     public Garden() {
         grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.blue);
 
-        barriers = new ArrayList<>();
-        barriers.add(new Barrier(0, 2, Color.GREEN, this, false));
-        barriers.add(new Barrier(0, 3, Color.GREEN, this, false));
-        barriers.add(new Barrier(0, 4, Color.ORANGE, this, false));
-        barriers.add(new Barrier(0, 5, Color.GREEN, this, false));
-        barriers.add(new Barrier(0, 6, Color.CYAN, this, false));
+        setUpMushrooms(22);
 
         centipede = new Centipede(Direction.LEFT, this, this);
     }
 
+    
+    public void setUpMushrooms(int number){
+        if (barriers == null) {
+            barriers = new ArrayList<>();          
+        }
+        
+        //clean out all the old mushrooms
+        barriers.clear();
+        
+        // and the number of new mushrooms
+        for (int i = 0; i < number; i++) {
+            barriers.add(new Barrier(grid.getRandomGridLocation(), Color.PINK, this, false));
+        }        
+    }
+    
+    
     @Override
     public void initializeEnvironment() {
     }
@@ -150,7 +161,22 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
         
         //if the head hits a mushroom from the right move it down and change direction to left.
         //if the head hits a mushroom from the left move it down and change direction to right.
-
+        if (barriers != null) {
+            for (Barrier barrier : barriers) {
+                if (barrier.getLocation().equals(proposedLocation)) {
+                    //move locatation down
+                    proposedLocation.y++;
+                    
+//                    change direction
+                    if (centipede.getDirection() == Direction.RIGHT) {
+                        centipede.setDirection(Direction.LEFT);
+                    }  else if (centipede.getDirection() == Direction.LEFT) {
+                        centipede.setDirection(Direction.RIGHT);
+                    }
+                    
+                }
+            }
+        }
         
         
         

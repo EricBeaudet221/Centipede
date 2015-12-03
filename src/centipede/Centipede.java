@@ -23,9 +23,9 @@ public class Centipede {
         //create a new head
         Point newHead = new Point(getHead());
         
-        if (direction == Direction.LEFT) {
+        if (getDirection() == Direction.LEFT) {
             newHead.x--;
-        } else if (direction == Direction.RIGHT) {
+        } else if (getDirection() == Direction.RIGHT) {
             newHead.x++;
         }
 
@@ -46,10 +46,10 @@ public class Centipede {
 
         //body
         body = new ArrayList<>();
-        body.add(new Point(10, 17));
-        body.add(new Point(10, 18));
-        body.add(new Point(10, 19));
-        body.add(new Point(10, 20));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
     }
 
     public void draw(Graphics graphics) {
@@ -70,7 +70,7 @@ public class Centipede {
     private final CellDataProviderIntf cellData;
     private final MoveValidatorIntf validator;
     private ArrayList<Point> body = new ArrayList<>();
-    private Color bodyColor;
+    private Color bodyColor = Color.GREEN;
     private Direction direction;
     
     private final int HEAD_POSITION = 0;
@@ -96,4 +96,11 @@ public class Centipede {
         this.direction = direction;
     }
     //</editor-fold>
+
+    /**
+     * @return the direction
+     */
+    public Direction getDirection() {
+        return direction;
+    }
 }

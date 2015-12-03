@@ -7,6 +7,7 @@ package centipede;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  *
@@ -23,13 +24,23 @@ public class Barrier {
 
     }
 
+//<editor-fold defaultstate="collapsed" desc="Constructors">
     public Barrier(int x, int y, Color color, CellDataProviderIntf cellData, boolean breakable) {
         this.x = x;
         this.y = y;
-
+        
         this.color = color;
         this.cellData = cellData;
     }
+    
+    public Barrier(Point location, Color color, CellDataProviderIntf cellData, boolean breakable) {
+        this.x = location.x;
+        this.y = location.y;
+        
+        this.color = color;
+        this.cellData = cellData;
+    }
+//</editor-fold>
 
     /**
      * @return the x
@@ -63,6 +74,10 @@ public class Barrier {
      */
     public void setY(int y) {
         this.y = y;
+    }
+    
+    public Point getLocation(){
+        return new Point(x, y);
     }
 
     /**
