@@ -6,7 +6,6 @@
 package centipede;
 
 import environment.ApplicationStarter;
-import environment.Direction;
 import grid.Grid;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -19,51 +18,82 @@ import java.util.ArrayList;
  */
 public class Centipede {
     
-    public Centipede(Direction direction, Grid grid, MoveValidatorIntf validator){
-        this.direction = direction;
-        this.grid = grid;
-        this.validator = validator;
+
+    public void move() {
+        //create a new head
+        Point newHead = new Point(getHead());
         
+        if (direction == Direction.LEFT) {
+            newHead.x--;
+        } else if (direction == Direction.RIGHT) {
+            newHead.x++;
+        }
+
+        //validate that it is ok to move
+        newHead = validator.validateMove(newHead);
+        
+        // put it ahead of the old head, depending on direction
+        body.add(HEAD_POSITION, newHead);
+        
+        //delete the tail
+        body.remove(body.size()-1);
+    }
+
+    public Centipede(Direction direction, CellDataProviderIntf cellData, MoveValidatorIntf validator) {
+        this.direction = direction;
+        this.cellData = cellData;
+        this.validator = validator;
+
         //body
         body = new ArrayList<>();
         body.add(new Point(10, 17));
         body.add(new Point(10, 18));
         body.add(new Point(10, 19));
         body.add(new Point(10, 20));
-        
     }
-    
+
     public void draw(Graphics graphics) {
         graphics.setColor(getBodyColor());
-        
+
         for (int i = 0; i < body.size(); i++) {
-            graphics.fillOval(getGrid().getCellSystemCoordinate(body.get(i)).x,
-                    getGrid().getCellSystemCoordinate(body.get(i)).y,
-                    getGrid().getCellWidth(),
-                    getGrid().getCellHeight());
+            graphics.setColor(bodyColor);
             
+            graphics.fillOval(cellData.getSystemCoordX(body.get(i).x, body.get(i).y),
+                              cellData.getSystemCoordY(body.get(i).x, body.get(i).y),
+                              cellData.getCellWidth(),
+                              cellData.getCellHeight());
+
         }
     }
-    
 
-    
-
-    private Direction direction = Direction.DOWN;
+//<editor-fold defaultstate="collapsed" desc="Properties">
+    private final CellDataProviderIntf cellData;
     private final MoveValidatorIntf validator;
-    private final Grid grid;
     private ArrayList<Point> body = new ArrayList<>();
-        Color bodyColor;
-
+    private Color bodyColor;
+    private Direction direction;
+    
+    private final int HEAD_POSITION = 0;
+    
     private Color getBodyColor() {
         return bodyColor;
     }
-
+    
     private ArrayList<Point> getBody() {
         return body;
     }
-
-    private Grid getGrid() {
-        return grid;
-    }
     
+    
+    private Point getHead() {
+        return body.get(HEAD_POSITION);
+    }
+
+
+    /**
+     * @param direction the direction to set
+     */
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+    //</editor-fold>
 }

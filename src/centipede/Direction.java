@@ -9,6 +9,6 @@ package centipede;
  *
  * @author ericbeaudet
  */
-class CellDataProvider {
-    
+public enum Direction {
+    LEFT, RIGHT
 }
