@@ -71,6 +71,7 @@ public class Centipede {
         head_1 = ResourceTools.loadImageFromResource("centipede/head_1.png");
         body_1 = ResourceTools.loadImageFromResource("centipede/body_1.png");
         body_2 = ResourceTools.loadImageFromResource("centipede/body_2.png");
+//        mushroom_1 = ResourceTools.loadImageFromResource("centipede/mushroom_1.pgn");
     }
 
     public Centipede(Direction direction, CellDataProviderIntf cellData, MoveValidatorIntf validator) {
@@ -94,7 +95,7 @@ public class Centipede {
     private Color bodyColor = Color.GREEN;
     private Direction direction;
 
-    Image head_1, body_1, body_2;
+    Image head_1, body_1, body_2, mushroom_1;
 
     private final int HEAD_POSITION = 0;
 

@@ -9,11 +9,11 @@ import environment.Environment;
 import grid.Grid;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 /**
  *
  * @author ericbeaudet
@@ -23,6 +23,10 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
     private Grid grid;
     private ArrayList<Barrier> barriers;
     private Centipede centipede;
+    private Barrier barrier;
+    private Graphics graphics;
+    
+    Image mushroom_1;
 
     public Garden() {
         grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.blue);
@@ -32,37 +36,43 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
         centipede = new Centipede(Direction.LEFT, this, this);
     }
 
-    
-    public void setUpMushrooms(int number){
+    public void setUpMushrooms(int number) {
         if (barriers == null) {
-            barriers = new ArrayList<>();          
+            barriers = new ArrayList<>();
+
         }
-        
+
         //clean out all the old mushrooms
         barriers.clear();
-        
+
         // and the number of new mushrooms
         for (int i = 0; i < number; i++) {
-            barriers.add(new Barrier(grid.getRandomGridLocation(), Color.PINK, this, false));
-        }        
+            barriers.add(new Barrier(grid.getRandomGridLocation(), Color.ORANGE, this, false));
+  
+            }
+        
+
     }
     
-    
+    public void draw(Graphics graphics){
+        
+        if (barriers != null) {
+            graphics.drawImage(mushroom_1, grid.getCellHeight(),grid.getCellWidth(), this);
+        }
+    }
+
     @Override
     public void initializeEnvironment() {
     }
 
-    int counter;
-
+   
     @Override
     public void timerTaskHandler() {
-//        System.out.println("hi" + ++counter);
-
         if (centipede != null) {
             centipede.move();
         }
-
-    }
+        
+        }
 
     @Override
     public void keyPressedHandler(KeyEvent e) {
@@ -112,7 +122,6 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
 //            barriers.draw(graphics);
     }
 
-
     //<editor-fold defaultstate="collapsed" desc="CellDataProviderIntf">
     @Override
     public int getCellWidth() {
@@ -147,7 +156,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
             proposedLocation.x++;
             centipede.setDirection(Direction.RIGHT);
         }
-        
+
         // if off the grid to the right, then
         //  - move down 1
         //  - move to the left one (back onto the grid)
@@ -158,7 +167,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
             proposedLocation.x--;
             centipede.setDirection(Direction.LEFT);
         }
-        
+
         //if the head hits a mushroom from the right move it down and change direction to left.
         //if the head hits a mushroom from the left move it down and change direction to right.
         if (barriers != null) {
@@ -166,26 +175,24 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
                 if (barrier.getLocation().equals(proposedLocation)) {
                     //move locatation down
                     proposedLocation.y++;
-                    
+
 //                    change direction
                     if (centipede.getDirection() == Direction.RIGHT) {
                         centipede.setDirection(Direction.LEFT);
-                    }  else if (centipede.getDirection() == Direction.LEFT) {
+                    } else if (centipede.getDirection() == Direction.LEFT) {
                         centipede.setDirection(Direction.RIGHT);
                     }
-                    
+
                 }
             }
         }
-        
-        
-        
+
 //        if (proposedLocation.x < 0) {
 //            System.out.println("OUT OF BOUNDS");
 //        }
 //        return null;
         return proposedLocation;
-    }    
-    
+    }
+
 //</editor-fold>
 }
