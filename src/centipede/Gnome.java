@@ -5,10 +5,16 @@
  */
 package centipede;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 /**
  *
  * @author ericbeaudet
  */
-public class Gnome {
+public class Gnome{
+    public void draw(Graphics graphics) {
+        graphics.setColor(Color.RED);
+    }
     
 }

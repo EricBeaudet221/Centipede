@@ -43,26 +43,25 @@ public class Centipede {
 
         for (int i = 0; i < body.size(); i++) {
             if (i == HEAD_POSITION) {
-                graphics.drawImage(head_1, 
+                graphics.drawImage(head_1,
                         cellData.getSystemCoordX(body.get(i).x, body.get(i).y),
-                    cellData.getSystemCoordY(body.get(i).x, body.get(i).y),
-                    cellData.getCellWidth(),
-                    cellData.getCellHeight(), null);
+                        cellData.getSystemCoordY(body.get(i).x, body.get(i).y),
+                        cellData.getCellWidth(),
+                        cellData.getCellHeight(), null);
             } else {
-                  graphics.drawImage(body_1, 
+                graphics.drawImage(body_1,
                         cellData.getSystemCoordX(body.get(i).x, body.get(i).y),
-                    cellData.getSystemCoordY(body.get(i).x, body.get(i).y),
-                    cellData.getCellWidth(),
-                    cellData.getCellHeight(), null);              
+                        cellData.getSystemCoordY(body.get(i).x, body.get(i).y),
+                        cellData.getCellWidth(),
+                        cellData.getCellHeight(), null);
             }
-            
+
 //            graphics.setColor(bodyColor);
 //
 //            graphics.fillOval(cellData.getSystemCoordX(body.get(i).x, body.get(i).y),
 //                    cellData.getSystemCoordY(body.get(i).x, body.get(i).y),
 //                    cellData.getCellWidth(),
 //                    cellData.getCellHeight());
-
         }
     }
 
@@ -81,6 +80,14 @@ public class Centipede {
 
         //body
         body = new ArrayList<>();
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
+        body.add(new Point(10, 0));
         body.add(new Point(10, 0));
         body.add(new Point(10, 0));
         body.add(new Point(10, 0));

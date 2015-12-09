@@ -5,6 +5,7 @@
  */
 package centipede;
 
+import audio.AudioPlayer;
 import environment.Environment;
 import grid.Grid;
 import java.awt.Color;
@@ -14,6 +15,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
 /**
  *
  * @author ericbeaudet
@@ -25,7 +27,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
     private Centipede centipede;
     private Barrier barrier;
     private Graphics graphics;
-    
+
     Image mushroom_1;
 
     public Garden() {
@@ -48,31 +50,39 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
         // and the number of new mushrooms
         for (int i = 0; i < number; i++) {
             barriers.add(new Barrier(grid.getRandomGridLocation(), Color.ORANGE, this, false));
-  
+            if (barriers != null) {
             }
-        
+
+        }
 
     }
-    
-    public void draw(Graphics graphics){
-        
+
+    public void draw(Graphics graphics) {
+
         if (barriers != null) {
-            graphics.drawImage(mushroom_1, grid.getCellHeight(),grid.getCellWidth(), this);
+            graphics.drawImage(mushroom_1, grid.getCellHeight(), grid.getCellWidth(), this);
         }
     }
 
     @Override
     public void initializeEnvironment() {
     }
+    int moveDelay = 0;
+    int moveDelayLimit = 1;
 
-   
     @Override
     public void timerTaskHandler() {
         if (centipede != null) {
-            centipede.move();
+            if (moveDelay >= moveDelayLimit) {
+                centipede.move();
+                moveDelay = 0;
+
+            } else {
+                moveDelay++;
+            }
         }
-        
-        }
+
+    }
 
     @Override
     public void keyPressedHandler(KeyEvent e) {
@@ -84,8 +94,10 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
             System.out.println("Go up");
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             System.out.println("Go down");
-        }
+        }else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            AudioPlayer.play("/centipede/laser_1.wav");
 
+    }
     }
 
     @Override
