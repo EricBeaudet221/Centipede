@@ -7,6 +7,7 @@ package centipede;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 /**
  *
@@ -14,7 +15,21 @@ import java.awt.Graphics;
  */
 public class Gnome{
     public void draw(Graphics graphics) {
-        graphics.setColor(Color.RED);
+        graphics.drawImage(wizard_1,cellData.getSystemCoordX,
+                        cellData.getSystemCoordY,
+                        cellData.getCellWidth(),
+                        cellData.getCellHeight() null);
     }
+    public Gnome(Direction direction, CellDataProviderIntf cellData, MoveValidatorIntf validator) {
+        this.direction = direction;
+        this.cellData = cellData;
+        this.validator = validator;
+    }
+    Image image;
+    Direction direction;
+    MoveValidatorIntf validator;
+    
+    Image wizard_1;
+    CellDataProviderIntf cellData;
     
 }
