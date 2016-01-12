@@ -14,17 +14,19 @@ import java.awt.Image;
  * @author ericbeaudet
  */
 public class Gnome{
+    public Gnome(Direction direction, CellDataProviderIntf cellData, MoveValidatorIntf validator) {
+        this.direction = direction;
+        this.cellData = cellData;
+        this.validator = validator;
+    }
+    
     public void draw(Graphics graphics) {
         graphics.drawImage(wizard_1,cellData.getSystemCoordX,
                         cellData.getSystemCoordY,
                         cellData.getCellWidth(),
                         cellData.getCellHeight() null);
     }
-    public Gnome(Direction direction, CellDataProviderIntf cellData, MoveValidatorIntf validator) {
-        this.direction = direction;
-        this.cellData = cellData;
-        this.validator = validator;
-    }
+    
     Image image;
     Direction direction;
     MoveValidatorIntf validator;
