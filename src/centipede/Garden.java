@@ -8,7 +8,9 @@ package centipede;
 import audio.AudioPlayer;
 import environment.Environment;
 import grid.Grid;
+import images.ResourceTools;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -27,13 +29,21 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
     private Centipede centipede;
     private Barrier barrier;
     private Graphics graphics;
-
+    Image wizardType;
+    Gnome wizard;
     Image mushroom_1;
+    int move = 7;
+    private int score;
 
     public Garden() {
-        grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.blue);
+        Image wizardType = ResourceTools.loadImageFromResource("Centipede/wizard_1.png");
+        this.setBackground(ResourceTools.loadImageFromResource("Centipede/Garden_3.png"));
 
-        setUpMushrooms(22);
+        wizard = new Gnome(wizardType, 100, 100, Direction.LEFT, this, this);
+        
+        grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.LIGHT_GRAY);
+
+        setUpMushrooms(17);
 
         centipede = new Centipede(Direction.LEFT, this, this);
     }
@@ -52,9 +62,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
             barriers.add(new Barrier(grid.getRandomGridLocation(), Color.ORANGE, this, false));
             if (barriers != null) {
             }
-
         }
-
     }
 
     public void draw(Graphics graphics) {
@@ -81,22 +89,27 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
                 moveDelay++;
             }
         }
+        if (wizard != null) {
+        }
 
     }
 
     @Override
     public void keyPressedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("Go left");
+            wizard.setX(wizard.getX() - move);
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("Go right");
+            wizard.setX(wizard.getX() + move);
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            System.out.println("Go up");
+            wizard.setY(wizard.getY() - move);
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            System.out.println("Go down");
+            wizard.setY(wizard.getY() + move);
         }else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             AudioPlayer.play("/centipede/laser_1.wav");
-
+        }else if (e.getKeyCode() == KeyEvent.VK_Y) {
+            AudioPlayer.play("/centipede/Yoda_Song.wav");
+        }else if (e.getKeyCode() == KeyEvent.VK_Y) {
+            graphics.drawString("SCORE: " + score, 20, 30);
     }
     }
 
@@ -128,7 +141,14 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
                 centipede.draw(graphics);
 
             }
+
         }
+        if (wizard != null){
+            wizard.draw(graphics);
+        }
+        graphics.setColor(Color.red);
+        graphics.setFont(new Font("Times", Font.BOLD, 35));
+        graphics.drawString("SCORE: 1" + score, 20, 30);
 //          
 
 //            barriers.draw(graphics);
