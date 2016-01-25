@@ -7,6 +7,7 @@ package centipede;
 
 import audio.AudioPlayer;
 import environment.Environment;
+import environment.Velocity;
 import grid.Grid;
 import images.ResourceTools;
 import java.awt.Color;
@@ -25,49 +26,51 @@ import java.util.ArrayList;
 class Garden extends Environment implements CellDataProviderIntf, MoveValidatorIntf {
 
     private Grid grid;
-    private ArrayList<Barrier> barriers;
+    private ArrayList<Barrier> mushrooms;
+    private ArrayList<Bullet> pews;
     private Centipede centipede;
     private Barrier barrier;
     private Graphics graphics;
     Image wizardType;
     Gnome wizard;
     Image mushroom_1;
-    int move = 7;
+    int move = 8;
     private int score;
 
     public Garden() {
         Image wizardType = ResourceTools.loadImageFromResource("Centipede/wizard_1.png");
         this.setBackground(ResourceTools.loadImageFromResource("Centipede/Garden_3.png"));
 
-        wizard = new Gnome(wizardType, 100, 100, Direction.LEFT, this, this);
-        
-        grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.LIGHT_GRAY);
+        wizard = new Gnome(wizardType, 38, 553, Direction.LEFT, this, this);
 
-        setUpMushrooms(17);
+        grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.GREEN);
+
+        setUpMushrooms(30);
+        pews = new ArrayList<>();
 
         centipede = new Centipede(Direction.LEFT, this, this);
     }
 
     public void setUpMushrooms(int number) {
-        if (barriers == null) {
-            barriers = new ArrayList<>();
+        if (mushrooms == null) {
+            mushrooms = new ArrayList<>();
 
         }
 
         //clean out all the old mushrooms
-        barriers.clear();
+        mushrooms.clear();
 
         // and the number of new mushrooms
         for (int i = 0; i < number; i++) {
-            barriers.add(new Barrier(grid.getRandomGridLocation(), Color.ORANGE, this, false));
-            if (barriers != null) {
+            mushrooms.add(new Barrier(grid.getRandomGridLocation(), Color.ORANGE, this, false));
+            if (mushrooms != null) {
             }
         }
     }
 
     public void draw(Graphics graphics) {
 
-        if (barriers != null) {
+        if (mushrooms != null) {
             graphics.drawImage(mushroom_1, grid.getCellHeight(), grid.getCellWidth(), this);
         }
     }
@@ -84,14 +87,22 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
             if (moveDelay >= moveDelayLimit) {
                 centipede.move();
                 moveDelay = 0;
-
             } else {
                 moveDelay++;
             }
         }
-        if (wizard != null) {
-        }
 
+        if (pews != null) {
+            for(Bullet bullet: pews){
+                bullet.move();
+            }                
+        }
+        checkBulletHits();
+    }
+    
+    private void checkBulletHits(){
+        //see if the bullet will intersect with anything
+        
     }
 
     @Override
@@ -104,13 +115,18 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
             wizard.setY(wizard.getY() - move);
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             wizard.setY(wizard.getY() + move);
-        }else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            AudioPlayer.play("/centipede/laser_1.wav");
-        }else if (e.getKeyCode() == KeyEvent.VK_Y) {
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            shoot();
+        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
             AudioPlayer.play("/centipede/Yoda_Song.wav");
-        }else if (e.getKeyCode() == KeyEvent.VK_Y) {
+        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
             graphics.drawString("SCORE: " + score, 20, 30);
+        }
     }
+
+    private void shoot() {
+        pews.add(new Bullet(new Point(wizard.getX(), wizard.getY()), new Velocity(0, -5)));
+        AudioPlayer.play("/centipede/laser_1.wav");
     }
 
     @Override
@@ -131,19 +147,23 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
             grid.paintComponent(graphics);
         }
 
-        if (barriers != null) {
-            for (int i = 0; i < barriers.size(); i++) {
-                barriers.get(i).draw(graphics);
-
+        if (mushrooms != null) {
+            for (int i = 0; i < mushrooms.size(); i++) {
+                mushrooms.get(i).draw(graphics);
             }
-
-            if (centipede != null) {
-                centipede.draw(graphics);
-
-            }
-
         }
-        if (wizard != null){
+        
+        if (pews != null) {
+            for(Bullet bullet: pews){
+                bullet.paint(graphics);
+            }                
+        }
+        
+        if (centipede != null) {
+            centipede.draw(graphics);
+        }
+
+        if (wizard != null) {
             wizard.draw(graphics);
         }
         graphics.setColor(Color.red);
@@ -202,8 +222,8 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
 
         //if the head hits a mushroom from the right move it down and change direction to left.
         //if the head hits a mushroom from the left move it down and change direction to right.
-        if (barriers != null) {
-            for (Barrier barrier : barriers) {
+        if (mushrooms != null) {
+            for (Barrier barrier : mushrooms) {
                 if (barrier.getLocation().equals(proposedLocation)) {
                     //move locatation down
                     proposedLocation.y++;
