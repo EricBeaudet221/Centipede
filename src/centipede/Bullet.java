@@ -19,7 +19,7 @@ public class Bullet extends Actor {
 
     public Bullet(Point position, Velocity velocity) {
         super(position, velocity);
-        this.setImage((BufferedImage)ResourceTools.loadImageFromResource("centipede/pew.png"));
+        this.setImage((BufferedImage) ResourceTools.loadImageFromResource("centipede/pew.png"));
     }
-    
+
 }

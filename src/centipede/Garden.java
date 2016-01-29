@@ -93,14 +93,14 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
         }
 
         if (pews != null) {
-            for(Bullet bullet: pews){
+            for (Bullet bullet : pews) {
                 bullet.move();
-            }                
+            }
         }
         checkBulletHits();
     }
-    
-    private void checkBulletHits(){
+
+    private void checkBulletHits() {
         //see if the bullet will intersect with anything
         
     }
@@ -125,7 +125,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
     }
 
     private void shoot() {
-        pews.add(new Bullet(new Point(wizard.getX(), wizard.getY()), new Velocity(0, -5)));
+        pews.add(new Bullet(new Point(wizard.getX() - 30, wizard.getY()), new Velocity(0, -20)));
         AudioPlayer.play("/centipede/laser_1.wav");
     }
 
@@ -152,13 +152,13 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
                 mushrooms.get(i).draw(graphics);
             }
         }
-        
+
         if (pews != null) {
-            for(Bullet bullet: pews){
+            for (Bullet bullet : pews) {
                 bullet.paint(graphics);
-            }                
+            }
         }
-        
+
         if (centipede != null) {
             centipede.draw(graphics);
         }

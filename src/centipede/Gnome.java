@@ -14,13 +14,15 @@ import java.awt.Image;
  *
  * @author ericbeaudet
  */
-public class Gnome{
+public class Gnome {
+
     private int x;
     private int y;
-    
+
     public void draw(Graphics graphics) {
         graphics.drawImage(image, x, y, null);
     }
+
     public Gnome(Image image, int x, int y, Direction direction, CellDataProviderIntf cellData, MoveValidatorIntf validator) {
         this.x = x;
         this.y = y;
@@ -29,13 +31,11 @@ public class Gnome{
         this.cellData = cellData;
         this.validator = validator;
     }
-    
-    
-    
+
     private Image image;
     Direction direction;
     MoveValidatorIntf validator;
-    
+
     CellDataProviderIntf cellData;
 
     /**
@@ -79,7 +79,5 @@ public class Gnome{
     public void setY(int y) {
         this.y = y;
     }
-    
-    
-    
+
 }
