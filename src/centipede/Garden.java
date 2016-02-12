@@ -45,7 +45,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
 
         grid = new Grid(40, 30, 17, 17, new Point(10, 50), Color.GREEN);
 
-        setUpMushrooms(30);
+        setUpMushrooms(25);
         pews = new ArrayList<>();
 
         centipede = new Centipede(Direction.LEFT, this, this);
@@ -119,8 +119,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
             shoot();
         } else if (e.getKeyCode() == KeyEvent.VK_Y) {
             AudioPlayer.play("/centipede/Yoda_Song.wav");
-        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
-            graphics.drawString("SCORE: " + score, 20, 30);
+
         }
     }
 
@@ -168,7 +167,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
         }
         graphics.setColor(Color.red);
         graphics.setFont(new Font("Times", Font.BOLD, 35));
-        graphics.drawString("SCORE: 1" + score, 20, 30);
+        graphics.drawString("SCORE:" + score ++, 20, 30);
 //          
 
 //            barriers.draw(graphics);
