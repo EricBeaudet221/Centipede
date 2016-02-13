@@ -5,6 +5,7 @@
  */
 package centipede;
 
+import images.Animator;
 import images.ResourceTools;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -49,7 +50,7 @@ public class Centipede {
                         cellData.getCellWidth(),
                         cellData.getCellHeight(), null);
             } else {
-                graphics.drawImage(body_1,
+                graphics.drawImage(getImage(),
                         cellData.getSystemCoordX(body.get(i).x, body.get(i).y),
                         cellData.getSystemCoordY(body.get(i).x, body.get(i).y),
                         cellData.getCellWidth(),
@@ -73,6 +74,8 @@ public class Centipede {
 //        mushroom_1 = ResourceTools.loadImageFromResource("centipede/mushroom_1.pgn");
     }
 
+    private Animator animator;
+
     public Centipede(Direction direction, CellDataProviderIntf cellData, MoveValidatorIntf validator) {
         this.direction = direction;
         this.cellData = cellData;
@@ -92,6 +95,9 @@ public class Centipede {
         body.add(new Point(10, 0));
         body.add(new Point(10, 0));
         body.add(new Point(10, 0));
+
+        animator = new Animator(new AnimatedImageManager(),
+                AnimatedImageManager.RUN_LEFT_IMAGE_NAMES, 100);
     }
 //</editor-fold>
 
@@ -131,5 +137,10 @@ public class Centipede {
      */
     public Direction getDirection() {
         return direction;
+    }
+
+    private Image getImage() {
+        return animator.getCurrentImage();
+
     }
 }

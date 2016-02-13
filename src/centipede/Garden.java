@@ -102,7 +102,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
 
     private void checkBulletHits() {
         //see if the bullet will intersect with anything
-        
+         
     }
 
     @Override
