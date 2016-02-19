@@ -5,6 +5,7 @@
  */
 package centipede;
 
+import audio.AudioPlayer;
 import environment.ApplicationStarter;
 
 /**
@@ -17,6 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         ApplicationStarter.run("Centipede Squash", new Garden());
+       
     }
     
 }

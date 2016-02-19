@@ -32,7 +32,7 @@ public class AnimatedImageManager extends ImageManager {
         RUN_RIGHT_IMAGE_NAMES = new ArrayList<>();
         RUN_RIGHT_IMAGE_NAMES.add(RUN_RIGHT_01);
         RUN_RIGHT_IMAGE_NAMES.add(RUN_RIGHT_02);
-        
+
         //add my images
         addImage(RUN_LEFT_01, ResourceTools.loadImageFromResource("centipede/body_1.png"));
         addImage(RUN_LEFT_02, ResourceTools.loadImageFromResource("centipede/body_2.png"));

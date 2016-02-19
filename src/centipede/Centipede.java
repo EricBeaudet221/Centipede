@@ -5,6 +5,8 @@
  */
 package centipede;
 
+import static centipede.AnimatedImageManager.RUN_LEFT_IMAGE_NAMES;
+import static centipede.AnimatedImageManager.RUN_RIGHT_IMAGE_NAMES;
 import images.Animator;
 import images.ResourceTools;
 import java.awt.Color;
@@ -39,6 +41,22 @@ public class Centipede {
         body.remove(body.size() - 1);
     }
 
+    public void setMoveState(AnimationState animationState) {
+        this.animationState = animationState;
+
+        switch (animationState) {
+            default:
+            case RUN_LEFT:
+                animator.setImageNames(RUN_LEFT_IMAGE_NAMES);
+                break;
+
+            case RUN_RIGHT:
+                animator.setImageNames(RUN_RIGHT_IMAGE_NAMES);
+                break;
+
+        }
+    }
+
     public void draw(Graphics graphics) {
         graphics.setColor(getBodyColor());
 
@@ -66,7 +84,7 @@ public class Centipede {
         }
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Constructors">
+//<editor-fold defaultstate="collapsed" desc="Constructors">
     {
         head_1 = ResourceTools.loadImageFromResource("centipede/head_1.png");
         body_1 = ResourceTools.loadImageFromResource("centipede/body_1.png");
@@ -135,6 +153,8 @@ public class Centipede {
     /**
      * @return the direction
      */
+    private AnimationState animationState;
+
     public Direction getDirection() {
         return direction;
     }

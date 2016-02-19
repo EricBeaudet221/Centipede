@@ -101,8 +101,10 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
     }
 
     private void checkBulletHits() {
-        //see if the bullet will intersect with anything
-         
+        //see if the bullet will intersect with anything.
+        //if it hits a mushroom then it disapears.
+        //if it hits the centipede then the centipede's size is reduced by one point.
+
     }
 
     @Override
@@ -167,7 +169,7 @@ class Garden extends Environment implements CellDataProviderIntf, MoveValidatorI
         }
         graphics.setColor(Color.red);
         graphics.setFont(new Font("Times", Font.BOLD, 35));
-        graphics.drawString("SCORE:" + score ++, 20, 30);
+        graphics.drawString("SCORE:" + score++, 20, 30);
 //          
 
 //            barriers.draw(graphics);
